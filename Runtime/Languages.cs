@@ -36,5 +36,6 @@ namespace Padoru.Localization
 		pt_BR = 31, // Portuguese (Brazil)
 		zh_Hant = 32, // Chinese (Traditional)
 		es_419 = 33, // Spanish (Latin America)
+		None = int.MaxValue // No Language Set
 	}
 }
