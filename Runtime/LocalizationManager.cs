@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using Debug = Padoru.Diagnostics.Debug;
 
 namespace Padoru.Localization
@@ -9,6 +10,11 @@ namespace Padoru.Localization
 	{
 		private readonly ILocalizationFilesLoader filesLoader;
 		private readonly Dictionary<Languages, LocalizationFile> files = new();
+		
+		private TMP_FontAsset baseFont;
+		private TMP_FontAsset baseTitleFont;
+		private Dictionary<Languages, TMP_FontAsset> fontOverrides = new();
+		private Dictionary<Languages, TMP_FontAsset> titleFontOverrides = new();
 
 		public Languages CurrentLanguage { get; private set; }
 		
@@ -84,6 +90,24 @@ namespace Padoru.Localization
 
 			localizedText = Constants.COULD_NOT_LOCALIZE_STRING;
 			return false;
+		}
+
+		public void SetLanguageFontOverrides(TMP_FontAsset baseFont, TMP_FontAsset baseTitleFont, Dictionary<Languages, TMP_FontAsset> overrides, Dictionary<Languages, TMP_FontAsset> titleOverrides)
+		{
+			this.baseFont = baseFont;
+			this.baseTitleFont = baseTitleFont;
+			this.fontOverrides = overrides;
+			this.titleFontOverrides = titleOverrides;
+		}
+
+		public TMP_FontAsset GetCurrentLanguageFont(bool isTitle)
+		{
+			if (isTitle)
+			{
+				return titleFontOverrides.GetValueOrDefault(CurrentLanguage, baseTitleFont);
+			}
+			
+			return fontOverrides.GetValueOrDefault(CurrentLanguage, baseFont);
 		}
 
 		public void SetLanguage(Languages language)

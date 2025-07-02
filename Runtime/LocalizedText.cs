@@ -11,6 +11,7 @@ namespace Padoru.Localization
 	public class LocalizedText : MonoBehaviour
 	{
 		[SerializeField] private string entryName;
+		[SerializeField] private bool isTitle;
 
 		private Text text;
 		private TMP_Text tmpText;
@@ -62,6 +63,7 @@ namespace Padoru.Localization
 			if (tmpText != null)
 			{
 				tmpText.text = localizedText;
+				tmpText.font = localizationManager.GetCurrentLanguageFont(isTitle);
 			}
 
 			Debug.Log($"Text updated to: {localizedText}", Constants.LOCALIZATION_LOG_CHANNEL, gameObject);
